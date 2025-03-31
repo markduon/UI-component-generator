@@ -1,7 +1,6 @@
 """Component generator using DeepSeek API"""
 
 import os
-import json
 import requests
 
 
