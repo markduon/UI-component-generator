@@ -1,13 +1,12 @@
-
 """Component generator using DeepSeek API"""
+
 import os
 import json
 import requests
 
 
 def get_api_key():
-    """Get DeepSeek API key from environment variable.
-    """
+    """Get DeepSeek API key from environment variable."""
     return os.getenv("DEEPSEEK_API_KEY")
 
 
@@ -22,31 +21,26 @@ def generate_html(prompt, api_key):
     Create HTML with Tailwind CSS for the described UI component.
     Use appropriate colors, center text, and ensure readability.
     """
-    
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {api_key}"
-    }
+
+    headers = {"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"}
 
     data = {
         "model": "deepseek-chat",
         "messages": [
             {"role": "system", "content": instructions},
-            {"role": "user", "content": prompt}
-        ]
+            {"role": "user", "content": prompt},
+        ],
     }
 
     try:
         response = requests.post(
-            "https://api.deepseek.com/chat/completions",
-            headers=headers,
-            json=data
+            "https://api.deepseek.com/chat/completions", headers=headers, json=data
         )
-        
+
         if response.status_code == 200:
             result = response.json()
             content = result["choices"][0]["message"]["content"]
-            
+
             # Clean up markdown if present
             if "```" in content:
                 code_part = content.split("```")[1]
